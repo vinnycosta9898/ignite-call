@@ -38,5 +38,5 @@ export const Header = styled('div', {
 
 export const AuthError = styled(Text, {
   color: '#f75a68',
-  marginBottom: '$4'
+  marginBottom: '$4',
 })
