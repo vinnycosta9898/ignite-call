@@ -2,6 +2,7 @@ import { Avatar, Heading, Text } from '@ignite-ui/react'
 import { Container, UserHeader } from './styles'
 import { GetStaticProps } from 'next'
 import { prismaClient } from '@/lib/prisma'
+import { ScheduleForm } from './components/ScheduleForm'
 
 interface ScheduleProps {
     user:{
@@ -12,15 +13,14 @@ interface ScheduleProps {
 }
 
 // Quando a pagina é estatica mais a rota é dinamica
-
 export async function getStaticPaths() {
     return {
         paths: [],
-        fallback: 'block'
+        fallback: true
     }
 }
 
-export default function Scheduyle({ user } : ScheduleProps) {
+export default function Schedule({ user } : ScheduleProps) {
     return (
         <Container>
             <UserHeader>
@@ -28,6 +28,8 @@ export default function Scheduyle({ user } : ScheduleProps) {
                 <Heading>{user.name}</Heading>
                 <Text>{user.bio}</Text>
             </UserHeader>
+
+            <ScheduleForm/>
         </Container>
     )
 }
@@ -49,9 +51,11 @@ export const getStaticProps : GetStaticProps = async ({ params }) => {
     
     return{
         props:{
-            name: user.name,
-            bio: user.bio,
-            avatarUrl: user.avatar_url
+            user:{
+                name: user.name,
+                bio: user.bio,
+                avatarUrl: user.avatar_url
+            }
         }
     }
 }
