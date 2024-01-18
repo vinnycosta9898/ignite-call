@@ -1,6 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { Calendar } from "@/components/Calendar";
 import { Container, TimePicker, TimePickerHeader, TimePickerItem, TimePickerList } from "./styles";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import dayjs from "dayjs";
 import { api } from "@/lib/axios";
 import { useRouter } from "next/router";

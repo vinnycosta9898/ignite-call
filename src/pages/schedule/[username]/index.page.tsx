@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Avatar, Heading, Text } from '@ignite-ui/react'
 import { Container, UserHeader } from './styles'
 import { GetStaticProps } from 'next'
@@ -24,9 +25,9 @@ export default function Schedule({ user } : ScheduleProps) {
     return (
         <Container>
             <UserHeader>
-                <Avatar src={user.avatar_url} />
+                {/* <Avatar src={user.avatar_url} />
                 <Heading>{user.name}</Heading>
-                <Text>{user.bio}</Text>
+                <Text>{user.bio}</Text> */}
             </UserHeader>
 
             <ScheduleForm/>
