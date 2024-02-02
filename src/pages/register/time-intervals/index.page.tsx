@@ -76,7 +76,7 @@ export default function TimeIntervals() {
         }
     })
 
-    const weekDays = getWeekDays()
+    const weekDays = getWeekDays({})
 
     const { fields } = useFieldArray({
         control,
@@ -116,7 +116,7 @@ export default function TimeIntervals() {
                                         render={({ field }) => {
                                             return (
                                                 <Checkbox
-                                                    onCheckedChange={(checked) => {
+                                                    onCheckedChange={(checked: any) => {
                                                         field.onChange(checked === true)
                                                     }}
                                                     checked={field.value}
