@@ -48,7 +48,6 @@ export function CalendarStep({ onSelectedDateTime } : CalendarStepProps){
     onSelectedDateTime(dateWithTime)
   }
   
-
   return(
     <Container isTimePickerOpen={hasSelectedDate}>
       <Calendar

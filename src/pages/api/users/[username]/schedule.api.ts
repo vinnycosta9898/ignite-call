@@ -23,17 +23,8 @@ export default async function handler(
     return res.status(400).json({ message: 'User does not exist.' })
   }
 
-  const createSchedulingBody = z.object({
-    name: z.string(),
-    email: z.string().email(),
-    observation: z.string(),
-    date: z.string().datetime(),
-  })
-
-  const { name, email, observation, date } = createSchedulingBody.parse(
-    req.body,
-  )
-
+  const { name, email, observation, date } = req.body
+  
   const schedulingDate = dayjs(date).startOf('hour')
 
   if (schedulingDate.isBefore(new Date())) {
