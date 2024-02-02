@@ -14,12 +14,6 @@ interface ScheduleProps {
 }
 
 // Quando a pagina é estatica mais a rota é dinamica
-export async function getStaticPaths() {
-    return {
-        paths: [],
-        fallback: true
-    }
-}
 
 export default function Schedule({ user } : ScheduleProps) {
     return (
@@ -27,12 +21,19 @@ export default function Schedule({ user } : ScheduleProps) {
             <UserHeader>
                 {/* <Avatar src={user.avatar_url} />
                 <Heading>{user.name}</Heading>
-                <Text>{user.bio}</Text> */}
+            <Text>{user.bio}</Text> */}
             </UserHeader>
 
             <ScheduleForm/>
         </Container>
     )
+}
+
+export async function getStaticPaths() {
+    return {
+        paths: [],
+        fallback: true
+    }
 }
 
 export const getStaticProps : GetStaticProps = async ({ params }) => {

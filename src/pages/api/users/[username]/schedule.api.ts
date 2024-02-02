@@ -2,6 +2,8 @@ import dayjs from 'dayjs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { z } from 'zod'
 import { prismaClient } from '../../../../lib/prisma'
+import { google } from 'googleapis'
+import { getGoogleOAuthToken } from '@/lib/google'
 
 export default async function handler(
   req: NextApiRequest,
@@ -46,7 +48,7 @@ export default async function handler(
     })
   }
 
-  await prismaClient.scheduling.create({
+ const scheduling =  await prismaClient.scheduling.create({
     data: {
       name,
       email,
@@ -54,6 +56,35 @@ export default async function handler(
       date: schedulingDate.toDate(),
       user_id: user.id,
     },
+  })
+
+  const  calendar = google.calendar({
+    version: 'v3',
+    auth: await getGoogleOAuthToken(user.id),
+  })
+
+  await calendar.events.insert({
+   calendarId: 'primary',
+   conferenceDataVersion: 1,
+   requestBody:{
+    summary: `Ignite Call: ${name}`,
+    description: observation,
+    start:{
+      dateTime: schedulingDate.format()
+    },
+    end:{
+      dateTime: schedulingDate.add(1, 'hour').format()
+    },
+    attendees:[{ email, displayName: name}],
+    conferenceData: {
+      createRequest:{
+        requestId: scheduling.id,
+        conferenceSolutionKey:{
+          type: 'hangoutsMeet'
+        }
+      }
+    }
+   },
   })
 
   return res.status(201).end()
