@@ -1,28 +1,26 @@
-/* eslint-disable prettier/prettier */
 import { Avatar, Heading, Text } from "@ignite-ui/react";
-import { Container, UserHeader } from "./styles";
-import { GetStaticProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
+import { NextSeo } from "next-seo";
 import { prismaClient } from "@/lib/prisma";
 import { ScheduleForm } from "./components/ScheduleForm";
-import { NextSeo } from "next-seo";
+import { Container, UserHeader } from "./styles";
 
 interface ScheduleProps {
   user: {
     name: string;
     bio: string;
-    avatar_url: string;
+    avatarUrl: string;
   };
 }
-
-// Quando a pagina é estatica mais a rota é dinamica
 
 export default function Schedule({ user }: ScheduleProps) {
   return (
     <>
       <NextSeo title={`Agendar com ${user.name} | Ignite Call`} />
+
       <Container>
         <UserHeader>
-          <Avatar src={user.avatar_url} />
+          <Avatar src={user.avatarUrl} />
           <Heading>{user.name}</Heading>
           <Text>{user.bio}</Text>
         </UserHeader>
@@ -33,12 +31,12 @@ export default function Schedule({ user }: ScheduleProps) {
   );
 }
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
-    fallback: true,
+    fallback: "blocking",
   };
-}
+};
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const username = String(params?.username);
@@ -63,5 +61,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         avatarUrl: user.avatar_url,
       },
     },
+    revalidate: 60 * 60 * 24, // 1 day
   };
 };
